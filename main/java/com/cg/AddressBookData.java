@@ -2,14 +2,14 @@ package com.cg;
 
 public class AddressBookData {
 
-	private String firstName;
+	public String firstName;
 	private String lastName;
 	private double address;
 	private String city;
 	private String state;
 	private double zip;
 	private double phone_Number;
-	private String email;
+	public String email;
 	
 	public AddressBookData(String firstName, String lastName, double address, String city, String state, double zip,
 			double phone_Number, String email) {

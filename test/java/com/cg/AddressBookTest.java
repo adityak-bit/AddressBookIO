@@ -17,9 +17,19 @@ public class AddressBookTest {
 		service = new AddressBookService();
 	}
 	
+	//UC16
 	@Test
 	public void givenAddressBookDB_WhenRetrieved_ShouldMatchCount() {
 		List<AddressBookData> addrList = service.readData(IOService.DB_IO);
 		Assert.assertEquals(3, addrList.size());
+	}
+	
+	//UC17
+	@Test
+	public void givenNewEmailForPerson_WhenUpdated_ShouldSyncWithDB() {
+		List<AddressBookData> addrList = service.readData(IOService.DB_IO);
+		service.updatePersonData("A", "A@GMAIL.COM");
+		boolean result = service.checkPersonDataInSyncWithDB("A");
+		Assert.assertTrue(result);
 	}
 }

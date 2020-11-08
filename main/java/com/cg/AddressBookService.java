@@ -27,4 +27,23 @@ public class AddressBookService {
 		}
 		return addrList;
 	}
+
+	public void updatePersonData(String fname, String email) {
+		int result = dbService.updatePersonData(fname, email);
+		if(result == 0) return;
+		AddressBookData data = this.getData(fname);
+		if(data != null) data.email = email;
+	}
+
+	private AddressBookData getData(String fname) {
+		return addrList.stream()
+				       .filter(addressBookData ->  addressBookData.firstName.equals(fname))
+				       .findFirst()
+				       .orElse(null);
+	}
+
+	public boolean checkPersonDataInSyncWithDB(String fname) {
+		List<AddressBookData> addrList = dbService.getData();
+		return addrList.get(0).equals(getData(fname));
+	}
 }
