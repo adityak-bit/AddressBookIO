@@ -36,19 +36,11 @@ public class AddressBookDBService {
 		String sql  = "SELECT * FROM contacts c, address_info a WHERE c.address = a.zip;";
 		return this.getDataUsingDB(sql);
 	}
-
-	public List<AddressBookData> getData(String fname) {
-		List<AddressBookData> addrList =  null;
-		if(this.dataStatement == null)
-			this.prepareStatementForData();
-		try {
-			employeePayrollDataStatement.setString(1, name);
-			ResultSet resultSet = employeePayrollDataStatement.executeQuery();
-			employeePayrollList = this.getEmployeePayrollData(resultSet);
-		}catch(SQLException e) {
-			e.printStackTrace();
-		}
-		return employeePayrollList;
+	
+	public List<AddressBookData> getDataByState(String state) {
+		String sql  = String.format(" SELECT * FROM contacts c, address_info a WHERE"
+				                  + " c.address = a.zip AND a.state = '%s'", state);
+		return this.getDataUsingDB(sql);
 	}
 	
 	private List<AddressBookData> getDataUsingDB(String sql){
@@ -98,4 +90,5 @@ public class AddressBookDBService {
 			}
 		return 0;
 	}
+
 }
