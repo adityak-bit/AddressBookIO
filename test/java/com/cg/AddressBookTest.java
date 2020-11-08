@@ -32,4 +32,11 @@ public class AddressBookTest {
 		boolean result = service.checkPersonDataInSyncWithDB("A");
 		Assert.assertTrue(result);
 	}
+	
+	//UC19
+	@Test
+	public void givenAddressBookDB_WhenRetrievedByState_ShouldMatchCount() {
+		List<AddressBookData> addrList = service.readDataByState(IOService.DB_IO, "A");
+		Assert.assertEquals(2, addrList.size());
+	}
 }
