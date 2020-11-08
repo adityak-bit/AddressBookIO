@@ -37,6 +37,20 @@ public class AddressBookDBService {
 		return this.getDataUsingDB(sql);
 	}
 
+	public List<AddressBookData> getData(String fname) {
+		List<AddressBookData> addrList =  null;
+		if(this.dataStatement == null)
+			this.prepareStatementForData();
+		try {
+			employeePayrollDataStatement.setString(1, name);
+			ResultSet resultSet = employeePayrollDataStatement.executeQuery();
+			employeePayrollList = this.getEmployeePayrollData(resultSet);
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
+		return employeePayrollList;
+	}
+	
 	private List<AddressBookData> getDataUsingDB(String sql){
 		List<AddressBookData> addrList = new ArrayList<>();
 		try (Connection connection = this.getConnection()){
@@ -68,5 +82,20 @@ public class AddressBookDBService {
 				e.printStackTrace();
 			}
 			return addrList;
+	}
+	
+	public int updatePersonData(String fname, String email) {
+		return this.updatePersonDataUsingStatement(fname, email);
+	}
+
+	private int updatePersonDataUsingStatement(String fname, String email) {
+		String sql = String.format("update contacts set email = '%s' where fname = '%s'", email, fname);
+		try (Connection connection = this.getConnection()){
+			Statement statement = connection.createStatement();
+			return statement.executeUpdate(sql);
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		return 0;
 	}
 }
